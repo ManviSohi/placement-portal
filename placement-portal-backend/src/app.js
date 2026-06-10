@@ -57,7 +57,7 @@ app.get('/health', (req, res) => {
 // ─── API ROUTES ───────────────────────────────────────────────────────────────
 // Routes will be added here in the next phase.
 // Keeping them commented shows the intended structure.
-// app.use('/api/auth', require('./routes/auth.routes'));
+app.use('/api/auth', require('./routes/auth.routes'));
 // app.use('/api/students', require('./routes/student.routes'));
 // app.use('/api/jobs', require('./routes/job.routes'));
 // app.use('/api/applications', require('./routes/application.routes'));
