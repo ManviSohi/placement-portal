@@ -25,7 +25,7 @@ app.use(cors({origin:config.frontendUrl,
 const limiter=rateLimit({
     windowMs:config.rateLimit.windowMs,
     max:config.rateLimit.max,
-    StandardHeaders:true, //Return rate limit info in the `RateLimit-*` headers
+    standardHeaders:true, //Return rate limit info in the `RateLimit-*` headers
     legacyHeaders:false, //Disable the `X-RateLimit-*` headers
     message:{
         success:false,
@@ -58,10 +58,10 @@ app.get('/health', (req, res) => {
 // Routes will be added here in the next phase.
 // Keeping them commented shows the intended structure.
 app.use('/api/auth', require('./routes/auth.routes'));
-// app.use('/api/students', require('./routes/student.routes'));
-// app.use('/api/jobs', require('./routes/job.routes'));
+app.use('/api/students', require('./routes/student.routes'));
+app.use('/api/jobs', require('./routes/job.routes'));
 // app.use('/api/applications', require('./routes/application.routes'));
-// app.use('/api/admin', require('./routes/admin.routes'));
+app.use('/api/admin', require('./routes/admin.routes'));
 
 // ─── 404 HANDLER ─────────────────────────────────────────────────────────────
 // If no route matched above, send a clean 404.
