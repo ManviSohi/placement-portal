@@ -11,6 +11,10 @@ const {
   updateJobValidator,
   jobIdValidator,
 } = require('../validators/job.validator');
+const {
+  updateStatusValidator,
+  getApplicationsQueryValidator,
+} = require('../validators/application.validator');
 
 router.use(protect);
 router.use(authorize('admin'));
@@ -23,5 +27,17 @@ router.get('/students/:id', AdminController.getStudentById);
 router.post('/jobs',          createJobValidator, validate, JobController.createJob);
 router.put('/jobs/:id',       jobIdValidator, updateJobValidator, validate, JobController.updateJob);
 router.delete('/jobs/:id',    jobIdValidator, validate, JobController.deleteJob);
+
+// Applications
+router.get('/applications',
+  getApplicationsQueryValidator, validate,
+  ApplicationController.getAllApplications);
+
+router.patch('/applications/:id/status',
+  updateStatusValidator, validate,
+  ApplicationController.updateStatus);
+
+// Dashboard stats
+router.get('/stats', ApplicationController.getDashboardStats);
 
 module.exports = router;
