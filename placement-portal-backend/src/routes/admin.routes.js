@@ -1,6 +1,7 @@
 // src/routes/admin.routes.js
 const express = require('express');
 const router  = express.Router();
+const ApplicationController = require("../controllers/application.controller");
 const AdminController = require('../controllers/admin.controller');
 const JobController   = require('../controllers/job.controller');
 const { protect }     = require('../middleware/auth.middleware');
