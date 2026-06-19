@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import AdminRoute     from './components/common/AdminRoute';
-
+import Navbar from "./components/common/Navbar";
 // Pages
 import Landing     from './pages/Landing';
 import Login       from './pages/Login';
@@ -23,6 +23,7 @@ const App = () => {
     <BrowserRouter>
       {/* AuthProvider wraps everything so all pages can access auth state */}
       <AuthProvider>
+        <Navbar/>
         <Routes>
           {/* Public routes — accessible by anyone */}
           <Route path="/"        element={<Landing />} />
