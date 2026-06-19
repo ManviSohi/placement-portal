@@ -1,14 +1,17 @@
+// src/api/axios.js
+
 import axios from 'axios';
+
 // Create a configured Axios instance.
 // All API calls use this instance, not the raw axios object.
-//to configure baseURL and headers in ONE place.
-
-const api=axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
-    headers:{
-        'Content-Type':'application/json'
-    },
-    timeout:10000,
+// Why? So we configure baseURL and headers in ONE place.
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  // Timeout after 10 seconds — don't let requests hang forever
+  timeout: 10000,
 });
 
 // ─── REQUEST INTERCEPTOR ──────────────────────────────────────────────────────
@@ -30,8 +33,9 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-//RESPONSE INTERCEPTOR
-//Runs after Every response is received
+// ─── RESPONSE INTERCEPTOR ────────────────────────────────────────────────────
+// Runs after EVERY response is received.
+// Handles 401 errors globally — no need to check in every component.
 api.interceptors.response.use(
   // Success: just return the response as-is
   (response) => response,
@@ -39,10 +43,12 @@ api.interceptors.response.use(
   // Error: handle specific error codes globally
   (error) => {
     if (error.response?.status === 401) {
-     
+      // Token expired or invalid — clear storage and redirect to login
+      // This handles the "your session expired" scenario automatically
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-         // Only redirect if we're not already on the login page
+
+      // Only redirect if we're not already on the login page
       if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
@@ -50,6 +56,6 @@ api.interceptors.response.use(
     // Always reject so individual components can still catch errors
     return Promise.reject(error);
   }
-); 
+);
 
 export default api;
