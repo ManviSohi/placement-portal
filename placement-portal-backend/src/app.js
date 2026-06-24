@@ -13,12 +13,14 @@ const app=express();
 
 //SECURITY MIDDLEWARE
 app.use(helmet());
-app.use(cors({origin:config.frontendUrl,
-    methods:['GET','POST','PUT','DELETE','PATCH'],
-    //Allow the authoriztion header
-    allowedHeaders:['Content-Type','Authorization'],
-    //Allow cookies to be sent
-    credentials:true,
+app.use(cors({
+  origin: [
+    config.frontendUrl,
+    'https://your-app.vercel.app' // baad mein actual Vercel URL se replace karna
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
 //Rate limiter: allow max 100 requests per 15 minutes from the same IP

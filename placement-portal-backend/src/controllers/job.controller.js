@@ -124,6 +124,34 @@ const JobController = {
       next(error);
     }
   },
+  getAllJobsAdmin: async (req, res) => {
+  try {
+    const jobs = await JobModel.getAllJobsAdmin({
+      search: req.query.search,
+      type: req.query.type,
+      location: req.query.location,
+      limit: parseInt(req.query.limit) || 100,
+      offset: parseInt(req.query.offset) || 0
+    });
+
+    res.status(200).json({
+  success: true,
+  data: {
+    jobs
+  }
+});
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch jobs"
+    });
+  }
+}
 };
+
+
+
 
 module.exports = JobController;

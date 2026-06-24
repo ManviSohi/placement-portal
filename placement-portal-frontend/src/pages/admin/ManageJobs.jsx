@@ -37,7 +37,7 @@ const ManageJobs = () => {
       // not just status=open. Since our public endpoint hardcodes
       // status='open', we fetch jobs admin created via a wider query.
       // (See note below this component for the backend tweak needed.)
-      const response = await api.get('/jobs?limit=100');
+      const response = await api.get('/admin/jobs?limit=100');
       setJobs(response.data.data.jobs);
     } catch (err) {
       setError('Failed to load jobs.');

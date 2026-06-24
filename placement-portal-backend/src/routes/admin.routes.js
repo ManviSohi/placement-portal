@@ -28,6 +28,7 @@ router.get('/students/:id', AdminController.getStudentById);
 router.post('/jobs',          createJobValidator, validate, JobController.createJob);
 router.put('/jobs/:id',       jobIdValidator, updateJobValidator, validate, JobController.updateJob);
 router.delete('/jobs/:id',    jobIdValidator, validate, JobController.deleteJob);
+router.get('/jobs', JobController.getAllJobsAdmin);
 
 // Applications
 router.get('/applications',

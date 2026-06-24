@@ -52,6 +52,53 @@ const JobModel = {
     return result.rows;
   },
 
+  getAllJobsAdmin: async ({
+  search,
+  type,
+  location,
+  limit,
+  offset
+}) => {
+
+  let conditions = [];
+  let values = [];
+
+  if (search) {
+    conditions.push(`title ILIKE $${values.length + 1}`);
+    values.push(`%${search}%`);
+  }
+
+  if (type) {
+    conditions.push(`type = $${values.length + 1}`);
+    values.push(type);
+  }
+
+  if (location) {
+    conditions.push(`location ILIKE $${values.length + 1}`);
+    values.push(`%${location}%`);
+  }
+
+  const whereClause =
+    conditions.length > 0
+      ? `WHERE ${conditions.join(' AND ')}`
+      : '';
+
+  values.push(limit);
+  values.push(offset);
+
+  const query = `
+    SELECT *
+    FROM jobs
+    ${whereClause}
+    ORDER BY created_at DESC
+    LIMIT $${values.length - 1}
+    OFFSET $${values.length}
+  `;
+
+  const result = await pool.query(query, values);
+return result.rows;
+},
+
   // countJobs: mirrors getJobs filters exactly, but returns a count
   // CRITICAL: the WHERE clause logic must match getJobs exactly,
   // otherwise pagination metadata will be wrong (e.g. "page 2 of 3"
